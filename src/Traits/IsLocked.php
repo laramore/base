@@ -94,6 +94,7 @@ trait IsLocked
      * @param  boolean $locked
      * @param  string  $lockedElement
      * @return self
+     * @throws LockException If the instance is (un)locked.
      */
     protected function checkNeedsToBeLocked(bool $locked, string $lockedElement=null)
     {
