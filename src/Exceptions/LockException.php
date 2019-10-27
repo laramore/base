@@ -10,9 +10,39 @@
 
 namespace Laramore\Exceptions;
 
-use Laramore\Traits\Exception\HasElement;
-
 class LockException extends LaramoreException
 {
-    use HasElement;
+    /**
+     * Element creating this exception.
+     * Could be a method or a attribute.
+     *
+     * @var string
+     */
+    protected $element;
+
+    /**
+     * Create a new LaramoreException.
+     *
+     * @param object     $instance
+     * @param string     $message
+     * @param string     $element
+     * @param integer    $code
+     * @param \Throwable $previous
+     */
+    public function __construct(object $instance, string $message, string $element, int $code=0, \Throwable $previous=null)
+    {
+        $this->element = $element;
+
+        parent::__construct($instance, $message, $code, $previous);
+    }
+
+    /**
+     * Return the element generating the issue.
+     *
+     * @return string|null
+     */
+    public function getElement(): string
+    {
+        return $this->element;
+    }
 }
