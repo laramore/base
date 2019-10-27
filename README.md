@@ -58,6 +58,10 @@ This exception indicate the an exception occured during owning or that the insta
 
 ## Interfaces
 
+### IsALaramoreProvider
+
+Indicate that the provider generate and lock a Laramore manager, fetchable by the developer by `Provider::getManager()`.
+
 ### IsLockable
 
 Indicate that the class is lockable with the `lock` method.
