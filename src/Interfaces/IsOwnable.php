@@ -24,13 +24,6 @@ interface IsOwnable
     public function own(object $owner, string $name);
 
     /**
-     * Define the name attribute.
-     *
-     * @return self
-     */
-    public function setName(string $name);
-
-    /**
      * Return the owner of this instance.
      *
      * @return object|null

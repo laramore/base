@@ -28,7 +28,8 @@ trait HasProperties
     /**
      * Return a property by its name.
      *
-     * @param  string $key
+     * @param  string  $key
+     * @param  boolean $fail
      * @return mixed
      * @throws \ErrorException If no property exists with this name.
      */

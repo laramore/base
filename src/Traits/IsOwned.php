@@ -52,7 +52,13 @@ trait IsOwned
         return "The instance [$class] [{$this->name}] needs to be owned";
     }
 
-    protected function setOwner($owner)
+    /**
+     * Set the owner.
+     *
+     * @param object $owner
+     * @return void
+     */
+    protected function setOwner(object $owner)
     {
         $this->needsToBeUnowned();
 
@@ -86,9 +92,10 @@ trait IsOwned
     /**
      * Define the name attribute.
      *
+     * @param  string $name
      * @return self
      */
-    abstract public function setName(string $name);
+    abstract protected function setName(string $name);
 
     /**
      * Return the owner of this instance.
