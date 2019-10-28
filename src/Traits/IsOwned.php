@@ -136,7 +136,7 @@ trait IsOwned
             throw new OwnException($this, $owned ? $this->getNotOwnedMessage() : $this->getOwnedMessage(), $ownedElement);
         }
 
-        return $thios;
+        return $this;
     }
 
     /**
