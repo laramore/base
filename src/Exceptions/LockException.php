@@ -23,17 +23,16 @@ class LockException extends LaramoreException
     /**
      * Create a new LaramoreException.
      *
-     * @param object     $instance
      * @param string     $message
      * @param string     $element
      * @param integer    $code
      * @param \Throwable $previous
      */
-    public function __construct(object $instance, string $message, string $element, int $code=0, \Throwable $previous=null)
+    public function __construct(string $message, string $element, int $code=0, \Throwable $previous=null)
     {
         $this->element = $element;
 
-        parent::__construct($instance, $message, $code, $previous);
+        parent::__construct($message, $code, $previous);
     }
 
     /**
