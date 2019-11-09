@@ -46,23 +46,7 @@ abstract class BaseManager
      */
     public function __construct(array $defaults=[])
     {
-        if (Arr::isAssoc($defaults)) {
-            foreach ($defaults as $key => $value) {
-                $element = $this->create($key);
-
-                if (\is_array($value)) {
-                    foreach ($value as $keyValue => $elementValue) {
-                        $element->set($keyValue, $elementValue);
-                    }
-                } else {
-                    $element->native = $value;
-                }
-            }
-        } else {
-            foreach ($defaults as $name) {
-                $this->create($name);
-            }
-        }
+        $this->set($defaults);
     }
 
     /**
@@ -101,8 +85,11 @@ abstract class BaseManager
      * @return BaseElement
      * @throws \ErrorException If no element exists with this name.
      */
-    public function get(string $name): BaseElement
+    public function get(string $name=null): BaseElement
     {
+        if (is_null($name)) {
+            debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);exit;
+        }
         if ($this->has($name)) {
             return $this->elements[$name];
         }
@@ -147,16 +134,38 @@ abstract class BaseManager
      * Define an element with its name.
      * Override is allowed, be carefull.
      *
-     * @param  BaseElement $element
+     * @param  BaseElement|array $element
      * @return self
      */
-    public function set(BaseElement $element): self
+    public function set($element): self
     {
-        $this->elements[$name = $element->getName()] = $element;
+        if ($element instanceof $this->elementClass) {
+            $this->elements[$name = $element->getName()] = $element;
 
-        foreach ($this->definitions as $valueName) {
-            if (!$element->has($valueName)) {
-                $element->set($valueName, $name);
+            foreach ($this->definitions as $keyName => $valueName) {
+                if (!$element->has($keyName)) {
+                    $element->set($keyName, $valueName ?? $name);
+                }
+            }
+
+            return $this;
+        }
+
+        if (Arr::isAssoc($element)) {
+            foreach ($element as $key => $value) {
+                $element = $this->create($key);
+                
+                if (\is_array($value)) {
+                    foreach ($value as $keyValue => $elementValue) {
+                        $element->set($keyValue, $elementValue);
+                    }
+                } else {
+                    $element->native = $value;
+                }
+            }
+        } else {
+            foreach ($element as $name) {
+                $this->create($name);
             }
         }
 
@@ -191,7 +200,7 @@ abstract class BaseManager
      */
     public function doesDefine(string $name): bool
     {
-        return \in_array($name, $this->definitions);
+        return isset($this->definitions[$name]);
     }
 
     /**
@@ -200,16 +209,16 @@ abstract class BaseManager
      * @param string $name
      * @return void
      */
-    public function define(string $name)
+    public function define(string $name, $value=null)
     {
         $this->needsToBeUnlocked();
 
-        if (!$this->has($name)) {
-            $this->definitions[] = $name;
+        if (!$this->doesDefine($name)) {
+            $this->definitions[$name] = $value;
 
             foreach ($this->all() as $element) {
                 if (!$element->has($name)) {
-                    $element->set($name, $element->getName());
+                    $element->set($name, $value ?? $element->getName());
                 }
             }
         }

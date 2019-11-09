@@ -74,7 +74,9 @@ abstract class BaseElement
      */
     public function get(string $key='name')
     {
-        if ($key === 'name') {
+        if (\method_exists($this, $method = 'get'.Str::studly($key))) {
+            return \call_user_func([$this, $method]);
+        } else if ($key === 'name') {
             return $this->name;
         } else if ($this->has($key)) {
             return $this->values[$key];
@@ -82,7 +84,7 @@ abstract class BaseElement
 
         $class = static::class;
 
-        throw new \ErrorException("The element $class [{$this->getName()}] has no value for the key $key");
+        throw new \ErrorException("The element $class [{$this->getName()}] has no value for the key [$key]");
     }
 
     /**
@@ -95,6 +97,9 @@ abstract class BaseElement
     public function set(string $key, $value): self
     {
         $this->needsToBeUnlocked();
+        if (\method_exists($this, $method = 'set'.Str::studly($key))) {
+            return \call_user_func([$this, $method], $value);
+        }
 
         $this->values[$key] = $value;
 
@@ -161,7 +166,7 @@ abstract class BaseElement
     public function __call(string $method, array $args)
     {
         if (Str::startsWith($method, 'get')) {
-            return $this->get(Str::camel(\substr(Str::snake($method), 4)));
+            return $this->get(\substr(Str::snake($method), 4));
         } else {
             return $this->get($method)->__invoke(...$args);
         }
@@ -189,6 +194,6 @@ abstract class BaseElement
      */
     public function __toString()
     {
-        return $this->get('native');
+        return $this->name;
     }
 }
