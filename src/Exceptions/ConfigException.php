@@ -36,12 +36,12 @@ class ConfigException extends LaramoreException
     /**
      * Create a new LaramoreException.
      *
-     * @param string     $config
-     * @param array|string      $supportedValues
-     * @param mixed      $givenValue
-     * @param string     $message
-     * @param integer    $code
-     * @param \Throwable $previous
+     * @param string       $config
+     * @param array|string $supportedValues
+     * @param mixed        $givenValue
+     * @param string       $message
+     * @param integer      $code
+     * @param \Throwable   $previous
      */
     public function __construct(string $config, $supportedValues, $givenValue, string $message=null, int $code=0, \Throwable $previous=null)
     {
@@ -51,11 +51,20 @@ class ConfigException extends LaramoreException
             $this->supportedValues = (array) $supportedValues;
             $this->givenValue = $givenValue;
 
-            $values = implode(', ', $supportedValues);
-            $message = "It requires one of theses values: [".$values."], get instead: [$givenValue]";
+            if (\is_array($supportedValues)) {
+                if (\count($supportedValues) > 1) {
+                    $message = 'It requires one of theses values: `'.\json_encode($supportedValues);
+                } else {
+                    $message = 'It requires: `'.\json_encode($supportedValues);
+                }
+            } else {
+                $message = "It requires `$supportedValues`";
+            }
+
+            $message .= '`, got instead: `'.\json_encode($givenValue).'`';
         }
 
-        parent::__construct("The config [$config] is incorrect. ".$message, $code, $previous);
+        parent::__construct("The config `$config` is incorrect. ".$message, $code, $previous);
     }
 
     /**

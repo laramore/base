@@ -64,7 +64,7 @@ trait IsLocked
      */
     protected function getLockedMessage(string $element): string
     {
-        return 'This instance ['.static::class."] is locked and can not change/acces to the element [$element].";
+        return 'This instance `'.static::class."` is locked and can not change/acces to the element `$element`.";
     }
 
     /**
@@ -75,7 +75,7 @@ trait IsLocked
      */
     protected function getNotLockedMessage(string $element): string
     {
-        return 'This instance ['.static::class."] requires to be locked to change/access to the element [$element].";
+        return 'This instance `'.static::class."` requires to be locked to change/access to the element `$element`.";
     }
 
     /**
@@ -104,7 +104,9 @@ trait IsLocked
                 $lockedElement = $this->getDebugMethodName();
             }
 
-            throw new LockException($this, $locked ? $this->getNotLockedMessage() : $this->getLockedMessage(), $lockedElement);
+            $message = $locked ? $this->getNotLockedMessage($lockedElement) : $this->getLockedMessage($lockedElement);
+
+            throw new LockException($message, $lockedElement);
         }
 
         return $this;

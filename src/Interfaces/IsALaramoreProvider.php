@@ -29,9 +29,9 @@ interface IsALaramoreProvider
     /**
      * Return the default values for the manager of this provider.
      *
-     * @return array
+     * @return mixed
      */
-    public static function getDefaults(): array;
+    public static function getDefaults();
 
     /**
      * Return the generated manager for this provider.

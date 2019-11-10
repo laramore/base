@@ -18,8 +18,8 @@ trait MergesConfig
     /**
      * Merge the given configuration with the existing configuration.
      *
-     * @param  string  $path
-     * @param  string  $key
+     * @param  string $path
+     * @param  string $key
      * @return void
      */
     protected function mergeConfigFrom($path, $key)
@@ -32,8 +32,8 @@ trait MergesConfig
     /**
      * Merges the configs together and takes multi-dimensional arrays into account.
      *
-     * @param  array  $original
-     * @param  array  $merging
+     * @param  array $original
+     * @param  array $merging
      * @return array
      */
     protected function mergeConfig(array $original, array $merging, array $path): array
