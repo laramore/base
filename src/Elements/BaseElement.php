@@ -166,7 +166,11 @@ abstract class BaseElement
     public function __call(string $method, array $args)
     {
         if (Str::startsWith($method, 'get')) {
-            return $this->get(\substr(Str::snake($method), 4));
+            return $this->get(\substr(Str::snake($method), 4), ...$args);
+        } else if (Str::startsWith($method, 'set')) {
+            return $this->set(\substr(Str::snake($method), 4), ...$args);
+        } else if (Str::startsWith($method, 'has')) {
+            return $this->has(\substr(Str::snake($method), 4), ...$args);
         } else {
             return $this->get($method)->__invoke(...$args);
         }

@@ -10,7 +10,9 @@
 
 namespace Laramore\Elements;
 
-use Illuminate\Support\Arr;
+use Illuminate\Support\{
+    Arr, Str
+};
 use Laramore\Traits\IsLocked;
 
 abstract class BaseManager
@@ -85,11 +87,8 @@ abstract class BaseManager
      * @return BaseElement
      * @throws \ErrorException If no element exists with this name.
      */
-    public function get(string $name=null): BaseElement
+    public function get(string $name): BaseElement
     {
-        if (is_null($name)) {
-            debug_print_backtrace(DEBUG_BACKTRACE_IGNORE_ARGS);exit;
-        }
         if ($this->has($name)) {
             return $this->elements[$name];
         }
@@ -144,7 +143,7 @@ abstract class BaseManager
 
             foreach ($this->definitions as $keyName => $valueName) {
                 if (!$element->has($keyName)) {
-                    $element->set($keyName, $valueName ?? $name);
+                    $element->set($keyName, ($valueName ?? $name));
                 }
             }
 
@@ -154,7 +153,7 @@ abstract class BaseManager
         if (Arr::isAssoc($element)) {
             foreach ($element as $key => $value) {
                 $element = $this->create($key);
-                
+
                 if (\is_array($value)) {
                     foreach ($value as $keyValue => $elementValue) {
                         $element->set($keyValue, $elementValue);
@@ -218,7 +217,7 @@ abstract class BaseManager
 
             foreach ($this->all() as $element) {
                 if (!$element->has($name)) {
-                    $element->set($name, $value ?? $element->getName());
+                    $element->set($name, ($value ?? $element->getName()));
                 }
             }
         }
@@ -278,7 +277,9 @@ abstract class BaseManager
      */
     public function __call(string $method, array $args): BaseElement
     {
-        if (!$this->has($method)) {
+        $method = Str::snake($method);
+
+        if (!$this->has($method) && !$this->isLocked()) {
             $this->create($method);
         }
 
