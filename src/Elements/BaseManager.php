@@ -206,18 +206,19 @@ abstract class BaseManager
      * Add a value name and set the value for this name on each type.
      *
      * @param string $name
+     * @param mixed  $default
      * @return void
      */
-    public function define(string $name, $value=null)
+    public function define(string $name, $default=null)
     {
         $this->needsToBeUnlocked();
 
         if (!$this->doesDefine($name)) {
-            $this->definitions[$name] = $value;
+            $this->definitions[$name] = $default;
 
             foreach ($this->all() as $element) {
                 if (!$element->has($name)) {
-                    $element->set($name, ($value ?? $element->getName()));
+                    $element->set($name, ($default ?? $element->getName()));
                 }
             }
         }

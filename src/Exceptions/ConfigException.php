@@ -43,7 +43,8 @@ class ConfigException extends LaramoreException
      * @param integer      $code
      * @param \Throwable   $previous
      */
-    public function __construct(string $config, $supportedValues, $givenValue, string $message=null, int $code=0, \Throwable $previous=null)
+    public function __construct(string $config, $supportedValues, $givenValue, string $message=null,
+        int $code=0, \Throwable $previous=null)
     {
         $this->config = $config;
 
