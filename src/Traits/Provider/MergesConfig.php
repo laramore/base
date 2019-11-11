@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-namespace Laramore\Traits\Providers;
+namespace Laramore\Traits\Provider;
 
 use Illuminate\Support\Arr;
 use Laramore\Exceptions\ConfigException;
