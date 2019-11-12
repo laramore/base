@@ -97,19 +97,19 @@ abstract class BaseHandler
     {
         $priority = $observer->getPriority();
 
-        for ($i = 0; $i < count($observers); $i++) {
+        for ($i = 0; $i < \count($observers); $i++) {
             if ($observers[$i]->getPriority() > $priority) {
-                $observers = array_values(array_merge(
-                    array_slice($observers, 0, $i),
+                $observers = \array_values(\array_merge(
+                    \array_slice($observers, 0, $i),
                     [$observer],
-                    array_slice($observers, $i),
+                    \array_slice($observers, $i),
                 ));
 
                 return $this;
             }
         }
 
-        array_push($observers, $observer);
+        \array_push($observers, $observer);
 
         return $this;
     }
@@ -160,6 +160,29 @@ abstract class BaseHandler
         }
 
         throw new \Exception("The observer [$name] does not exist");
+    }
+
+    /**
+     * Return all observers for a specific class name.
+     *
+     * @param  string $class
+     * @return array
+     */
+    public function allFromClass(string $class): array
+    {
+        return \array_filter($this->observers, function ($observer) use ($class) {
+            return $observer instanceof $class;
+        });
+    }
+
+    /**
+     * Return the number of the handled observers.
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return \count($this->observers);
     }
 
     /**

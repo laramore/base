@@ -242,6 +242,16 @@ abstract class BaseObserver
     }
 
     /**
+     * Return the number of observed entities.
+     *
+     * @return int
+     */
+    public function count(): int
+    {
+        return \count($this->observed);
+    }
+
+    /**
      * Get all observed entities.
      *
      * @return array
