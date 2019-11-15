@@ -178,7 +178,7 @@ abstract class BaseHandler
     /**
      * Return the number of the handled observers.
      *
-     * @return int
+     * @return integer
      */
     public function count(): int
     {
@@ -217,7 +217,7 @@ abstract class BaseHandler
     }
 
     /**
-     * Need to do anything.
+     * Need to lock every observer.
      *
      * @return void
      */

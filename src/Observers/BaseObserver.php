@@ -89,7 +89,7 @@ abstract class BaseObserver
      *
      * @return Closure
      */
-    public function getCallback(): Closure
+    public function getCallback(): ?Closure
     {
         return $this->callback;
     }
@@ -244,7 +244,7 @@ abstract class BaseObserver
     /**
      * Return the number of observed entities.
      *
-     * @return int
+     * @return integer
      */
     public function count(): int
     {
@@ -268,7 +268,7 @@ abstract class BaseObserver
      */
     protected function locking()
     {
-        if (!$this->callback) {
+        if (!$this->getCallback()) {
             throw new \LogicException('An observer needs a callback value.');
         }
     }
