@@ -1,6 +1,6 @@
 <?php
 /**
- * Interface for all provider definding a manager for Laramore.
+ * Interface for all providers defining a manager for Laramore.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
@@ -34,9 +34,17 @@ interface IsALaramoreProvider
     public static function getDefaults();
 
     /**
+     * Generate the corresponded manager.
+     *
+     * @param  string $key
+     * @return IsALaramoreManager
+     */
+    public static function generateManager(string $key): IsALaramoreManager;
+
+    /**
      * Return the generated manager for this provider.
      *
-     * @return object
+     * @return IsALaramoreManager
      */
-    public static function getManager(): object;
+    public static function getManager(): IsALaramoreManager;
 }
