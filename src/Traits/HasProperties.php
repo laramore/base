@@ -22,6 +22,10 @@ trait HasProperties
      */
     public function hasProperty(string $key): bool
     {
+        if (\method_exists($this, $method = 'has'.\ucfirst($key))) {
+            return \call_user_func([$this, $method]);
+        }
+
         return isset($this->$key);
     }
 
@@ -132,6 +136,8 @@ trait HasProperties
         if (count($args) === 0) {
             if (Str::startsWith($method, 'get')) {
                 return $this->getProperty(Str::camel(substr(Str::snake($method), 4)));
+            } else if (Str::startsWith($method, 'has')) {
+                return $this->hasProperty(Str::camel(substr(Str::snake($method), 4)));
             } else {
                 return $this->setProperty($method, true);
             }
