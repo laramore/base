@@ -142,7 +142,11 @@ trait HasProperties
                 return $this->setProperty($method, true);
             }
         } else if (count($args) === 1) {
-            $this->setProperty($method, $args[0]);
+            if (Str::startsWith($method, 'set')) {
+                return $this->setProperty(Str::camel(substr(Str::snake($method), 4)), $args[0]);
+            } else {
+                $this->setProperty($method, $args[0]);
+            }
         } else {
             $this->setProperty($method, $args);
         }
