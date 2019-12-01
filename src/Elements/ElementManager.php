@@ -115,21 +115,6 @@ class ElementManager
     }
 
     /**
-     * Return the element or create one with the given name.
-     *
-     * @param  string $name
-     * @return Element
-     */
-    public function getOrCreate(string $name): Element
-    {
-        if ($this->has($name)) {
-            return $this->get($name);
-        } else {
-            return $this->create($name);
-        }
-    }
-
-    /**
      * Define an element with its name.
      * Override is allowed, be carefull.
      *
@@ -205,7 +190,7 @@ class ElementManager
      */
     public function doesDefine(string $name): bool
     {
-        return isset($this->definitions[$name]);
+        return \array_key_exists($name, $this->definitions);
     }
 
     /**
@@ -213,7 +198,7 @@ class ElementManager
      *
      * @param string $name
      * @param mixed  $default
-     * @return void
+     * @return self
      */
     public function define(string $name, $default=null)
     {
@@ -228,6 +213,8 @@ class ElementManager
                 }
             }
         }
+
+        return $this;
     }
 
     /**
@@ -280,22 +267,12 @@ class ElementManager
      *
      * @param  string $method Element name.
      * @param  array  $args   The first argument could be a value name of the element.
-     * @return Element
+     * @return mixed
      */
-    public function __call(string $method, array $args): Element
+    public function __call(string $method, array $args)
     {
         $method = Str::snake($method);
 
-        if (!$this->has($method) && !$this->isLocked()) {
-            $this->create($method);
-        }
-
-        $element = $this->get($method);
-
-        if (\count($args) === 0) {
-            return $element;
-        } else {
-            return $element->__invoke(...$args);
-        }
+        return $this->get($method)->__invoke(...$args);
     }
 }
