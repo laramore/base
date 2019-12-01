@@ -4,12 +4,15 @@
     "keywords": ["Laramore", "Laravel", "Element", "Manager", "Lock", "Unlock", "Own", "Owned", "Observer"],
     "license": "MIT",
     "require": {
-        "php": ">=7.0.0"
+        "php": ">=7.0.0",
+        "illuminate/support": "^6.6"
     },
     "require-dev": {
         "phpmd/phpmd": "^2.6",
         "squizlabs/php_codesniffer": "^3.3",
-        "phpstan/phpstan": "^0.11.7"
+        "phpstan/phpstan": "^0.11.7",
+        "nunomaduro/phpinsights": "^1.11",
+        "phpunit/phpunit": "^8.4"
     },
     "suggest": {
         "laramore/laramore": "Laramore/Base is made in order to work with Laramore"
@@ -29,6 +32,16 @@
         "test:lint": [
             "./vendor/bin/phpcs src",
             "./vendor/bin/phpmd src text phpmd.xml"
+        ],
+        "fix:lint": [
+            "./vendor/bin/phpcbf src"
+        ],
+        "test:unit": [
+            "vendor/bin/phpunit --bootstrap vendor/autoload.php tests"
+        ],
+        "test": [
+            "@composer test:lint",
+            "@composer test:unit"
         ]
     }
 }
