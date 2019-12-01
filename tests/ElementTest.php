@@ -9,14 +9,14 @@ final class ElementTest extends TestCase
 {
     public function testElementNoArgs()
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\version_compare(PHP_VERSION, '7.1.0', '>=') ? ArgumentCountError::class : TypeError::class);
 
         new Element();
     }
 
     public function testElementOneArg()
     {
-        $this->expectException(ArgumentCountError::class);
+        $this->expectException(\version_compare(PHP_VERSION, '7.1.0', '>=') ? ArgumentCountError::class : TypeError::class);
 
         new Element('name');
     }
