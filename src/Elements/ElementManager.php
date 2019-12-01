@@ -15,7 +15,7 @@ use Illuminate\Support\{
 };
 use Laramore\Traits\IsLocked;
 
-abstract class BaseManager
+class ElementManager
 {
     use IsLocked;
 
@@ -24,7 +24,7 @@ abstract class BaseManager
      *
      * @var string
      */
-    protected $elementClass;
+    protected $elementClass = Element::class;
 
     /**
      * All existing elements.
@@ -66,10 +66,10 @@ abstract class BaseManager
      * Return the first existant element with the given native value.
      *
      * @param  string $native
-     * @return BaseElement
+     * @return Element
      * @throws \ErrorException If no element exists with this native value.
      */
-    public function find(string $native): BaseElement
+    public function find(string $native): Element
     {
         foreach ($this->all() as $element) {
             if ($element->native === $native) {
@@ -77,23 +77,23 @@ abstract class BaseManager
             }
         }
 
-        throw new \ErrorException("The native element {$this->elementClass} [$native] does not exist");
+        throw new \ErrorException("No element `{$this->elementClass}` have `$native` as native value");
     }
 
     /**
      * Returns the element with the given name.
      *
      * @param  string $name
-     * @return BaseElement
+     * @return Element
      * @throws \ErrorException If no element exists with this name.
      */
-    public function get(string $name): BaseElement
+    public function get(string $name): Element
     {
         if ($this->has($name)) {
             return $this->elements[$name];
         }
 
-        throw new \ErrorException("The element {$this->elementClass} [$name] does not exist");
+        throw new \ErrorException("The element `{$this->elementClass}` with the name `$name` does not exist");
     }
 
     /**
@@ -102,9 +102,9 @@ abstract class BaseManager
      *
      * @param string $name
      * @param mixed  $native
-     * @return BaseElement
+     * @return Element
      */
-    public function create(string $name, $native=null): BaseElement
+    public function create(string $name, $native=null): Element
     {
         $this->needsToBeUnlocked();
 
@@ -118,9 +118,9 @@ abstract class BaseManager
      * Return the element or create one with the given name.
      *
      * @param  string $name
-     * @return BaseElement
+     * @return Element
      */
-    public function getOrCreate(string $name): BaseElement
+    public function getOrCreate(string $name): Element
     {
         if ($this->has($name)) {
             return $this->get($name);
@@ -133,7 +133,7 @@ abstract class BaseManager
      * Define an element with its name.
      * Override is allowed, be carefull.
      *
-     * @param  BaseElement|array $element
+     * @param  Element|array $element
      * @return self
      */
     public function set($element): self
@@ -146,26 +146,32 @@ abstract class BaseManager
                     $element->set($keyName, ($valueName ?? $name));
                 }
             }
+        } else if (\is_array($element)) {
+            if (Arr::isAssoc($element)) {
+                foreach ($element as $key => $value) {
+                    $element = $this->create($key);
 
-            return $this;
-        }
-
-        if (Arr::isAssoc($element)) {
-            foreach ($element as $key => $value) {
-                $element = $this->create($key);
-
-                if (\is_array($value)) {
-                    foreach ($value as $keyValue => $elementValue) {
-                        $element->set($keyValue, $elementValue);
+                    if (\is_array($value)) {
+                        foreach ($value as $keyValue => $elementValue) {
+                            $element->set($keyValue, $elementValue);
+                        }
+                    } else {
+                        $element->native = $value;
                     }
-                } else {
-                    $element->native = $value;
+                }
+            } else {
+                foreach ($element as $subElement) {
+                    if (\is_string($subElement)) {
+                        $this->create($subElement);
+                    } else {
+                        $this->set($subElement);
+                    }
                 }
             }
         } else {
-            foreach ($element as $name) {
-                $this->create($name);
-            }
+            $class = static::class;
+
+            throw new \ErrorException("The manager `$class` can set only arrays or the element `{$this->elementClass}`");
         }
 
         return $this;
@@ -272,11 +278,11 @@ abstract class BaseManager
      * Handle all method calls.
      * Returns the element with the given method name.
      *
-     * @param  string $method BaseElement name.
+     * @param  string $method Element name.
      * @param  array  $args   The first argument could be a value name of the element.
-     * @return BaseElement
+     * @return Element
      */
-    public function __call(string $method, array $args): BaseElement
+    public function __call(string $method, array $args): Element
     {
         $method = Str::snake($method);
 

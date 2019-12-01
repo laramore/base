@@ -12,9 +12,10 @@ namespace Laramore\Elements;
 
 use Illuminate\Support\Str;
 use Laramore\Exceptions\LockException;
+use Laramore\Interfaces\IsLockable;
 use Laramore\Traits\IsLocked;
 
-abstract class BaseElement
+class Element implements IsLockable
 {
     use IsLocked;
 
@@ -24,6 +25,13 @@ abstract class BaseElement
      * @var string
      */
     protected $name;
+
+    /**
+     * The element name.
+     *
+     * @var string
+     */
+    protected $native;
 
     /**
      * All defined values for this element.
@@ -41,7 +49,7 @@ abstract class BaseElement
     public function __construct(string $name, string $native)
     {
         $this->name = $name;
-        $this->set('native', $native);
+        $this->native = $native;
     }
 
     /**
@@ -52,6 +60,16 @@ abstract class BaseElement
     public function getName(): string
     {
         return $this->name;
+    }
+
+    /**
+     * Return the native element value.
+     *
+     * @return string
+     */
+    public function getNative(): string
+    {
+        return $this->native;
     }
 
     /**
@@ -76,15 +94,14 @@ abstract class BaseElement
     {
         if (\method_exists($this, $method = 'get'.Str::studly($key))) {
             return \call_user_func([$this, $method]);
-        } else if ($key === 'name') {
-            return $this->name;
         } else if ($this->has($key)) {
             return $this->values[$key];
+        } else if (isset($this->$key)) {
+            return $this->$key;
         }
 
         $class = static::class;
-
-        throw new \ErrorException("The element $class [{$this->getName()}] has no value for the key [$key]");
+        throw new \ErrorException("The element `{$class}` `{$this->getName()}` has no value for the key `$key`");
     }
 
     /**
@@ -97,25 +114,29 @@ abstract class BaseElement
     public function set(string $key, $value): self
     {
         $this->needsToBeUnlocked();
+
         if (\method_exists($this, $method = 'set'.Str::studly($key))) {
             return \call_user_func([$this, $method], $value);
         }
 
-        $this->values[$key] = $value;
+        if ($key === 'native') {
+            $this->native = $value;
+        } else {
+            $this->values[$key] = $value;
+        }
 
         return $this;
     }
 
     /**
-     * Actions when locking.
+     * Each class locks in a specific way.
      *
      * @return void
-     * @throws LockException If this element has no native value.
      */
     protected function locking()
     {
-        if (!$this->has('native')) {
-            throw new LockException($this, "Need a native element definition for {$this->getName()}", 'native');
+        if (!isset($this->native)) {
+            throw new LockException("Need a native element definition for `{$this->getName()}`", 'native');
         }
     }
 
@@ -127,7 +148,7 @@ abstract class BaseElement
      */
     public function __isset(string $key)
     {
-        return $this->has($key);
+        return $this->has(Str::snake($key));
     }
 
     /**
@@ -138,7 +159,7 @@ abstract class BaseElement
      */
     public function __get(string $key)
     {
-        return $this->get($key);
+        return $this->get(Str::snake($key));
     }
 
     /**
@@ -150,7 +171,7 @@ abstract class BaseElement
      */
     public function __set(string $key, $value)
     {
-        return $this->set($key, $value);
+        return $this->set(Str::snake($key), $value);
     }
 
     /**
@@ -198,6 +219,6 @@ abstract class BaseElement
      */
     public function __toString()
     {
-        return $this->name;
+        return $this->native;
     }
 }
