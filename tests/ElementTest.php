@@ -7,21 +7,21 @@ use Laramore\Elements\Element;
 
 final class ElementTest extends TestCase
 {
-    public function testElementNoArgs(): void
+    public function testElementNoArgs()
     {
         $this->expectException(ArgumentCountError::class);
 
         new Element();
     }
 
-    public function testElementOneArg(): void
+    public function testElementOneArg()
     {
         $this->expectException(ArgumentCountError::class);
 
         new Element('name');
     }
 
-    public function testSimpleElement(): void
+    public function testSimpleElement()
     {
         $element = new Element('name', 'native');
 
@@ -37,7 +37,7 @@ final class ElementTest extends TestCase
         $this->assertEquals($element(), 'native');
     }
 
-    public function testValueElement(): void
+    public function testValueElement()
     {
         $element = new Element('name', 'native');
 
@@ -61,7 +61,7 @@ final class ElementTest extends TestCase
         $this->assertEquals($element->new, 'wen');
     }
 
-    public function testCaseElement(): void
+    public function testCaseElement()
     {
         $element = new Element('name', 'native');
 
@@ -75,7 +75,7 @@ final class ElementTest extends TestCase
         $this->assertEquals($element->get('new_key'), 'newValue');
     }
 
-    public function testLockElement(): void
+    public function testLockElement()
     {
         $element = new Element('name', 'native');
 

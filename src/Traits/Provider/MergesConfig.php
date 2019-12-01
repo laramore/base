@@ -39,7 +39,8 @@ trait MergesConfig
      */
     protected function mergeConfig(array $original, array $merging, array $path): array
     {
-        if (Arr::isAssoc($original) !== Arr::isAssoc($merging) && \count(\array_values($original)) && \count(\array_values($merging))) {
+        if (Arr::isAssoc($original) !== Arr::isAssoc($merging)
+            && \count(\array_values($original)) && \count(\array_values($merging))) {
             throw new ConfigException(\implode('.', $path), null, null, 'Can\'t merge. Check the configuration from Laramore.');
         }
 

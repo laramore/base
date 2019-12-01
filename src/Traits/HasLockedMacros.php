@@ -22,7 +22,7 @@ trait HasLockedMacros
     /**
      * Register a custom macro.
      *
-     * @param  string   $name
+     * @param  mixed    $name
      * @param  callable $macro
      * @return void
      */

@@ -17,11 +17,11 @@ interface IsOwnable
     /**
      * Assign a unique owner to this instance.
      *
-     * @param  object $owner
-     * @param  string $name
+     * @param  IsAnOwner $owner
+     * @param  string    $name
      * @return self
      */
-    public function own(object $owner, string $name);
+    public function own(IsAnOwner $owner, string $name);
 
     /**
      * Return the owner of this instance.

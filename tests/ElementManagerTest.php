@@ -9,7 +9,7 @@ use Laramore\Elements\{
 
 final class ElementManagerTest extends TestCase
 {
-    public function testManagerNoArgs(): void
+    public function testManagerNoArgs()
     {
         $manager = new ElementManager();
 
@@ -24,7 +24,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerNullArg(): void
+    public function testManagerNullArg()
     {
         $this->expectException(TypeError::class);
 
@@ -43,7 +43,7 @@ final class ElementManagerTest extends TestCase
         return [$element, $element2];
     }
 
-    public function testManagerDefaults(): void
+    public function testManagerDefaults()
     {
         $manager = new ElementManager($this->getElements());
 
@@ -58,7 +58,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerSet(): void
+    public function testManagerSet()
     {
         $manager = new ElementManager();
 
@@ -79,7 +79,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerSetOverride(): void
+    public function testManagerSetOverride()
     {
         $manager = new ElementManager($this->getElements());
 
@@ -100,7 +100,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerCreate(): void
+    public function testManagerCreate()
     {
         $manager = new ElementManager();
 
@@ -133,7 +133,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerCreateOverride(): void
+    public function testManagerCreateOverride()
     {
         $manager = new ElementManager();
 
@@ -163,7 +163,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(0, $manager->definitions());
     }
 
-    public function testManagerHas(): void
+    public function testManagerHas()
     {
         $manager = new ElementManager($this->getElements());
 
@@ -185,7 +185,7 @@ final class ElementManagerTest extends TestCase
         $this->assertFalse($manager->has('name4'));
     }
 
-    public function testManagerGet(): void
+    public function testManagerGet()
     {
         $elements = $this->getElements();
         $manager = new ElementManager($elements);
@@ -204,7 +204,7 @@ final class ElementManagerTest extends TestCase
         $this->assertEquals($manager->get('name2'), $elements[1]);
     }
 
-    public function testManagerMagicGet(): void
+    public function testManagerMagicGet()
     {
         $elements = $this->getElements();
         $manager = new ElementManager($elements);
@@ -223,7 +223,7 @@ final class ElementManagerTest extends TestCase
         $this->assertEquals($manager->name2, $elements[1]);
     }
 
-    public function testManagerFind(): void
+    public function testManagerFind()
     {
         $elements = $this->getElements();
         $manager = new ElementManager($elements);
@@ -248,7 +248,7 @@ final class ElementManagerTest extends TestCase
         $this->assertEquals($manager->find('native3'), $elements[0]);
     }
 
-    public function testManagerDefineName(): void
+    public function testManagerDefineName()
     {
         $elements = $this->getElements();
         $manager = new ElementManager($elements);
@@ -269,7 +269,7 @@ final class ElementManagerTest extends TestCase
         $this->assertCount(1, $manager->definitions());
     }
 
-    public function testManagerCall(): void
+    public function testManagerCall()
     {
         $elements = $this->getElements();
         $manager = new ElementManager($elements);
