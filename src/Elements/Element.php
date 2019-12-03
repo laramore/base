@@ -80,7 +80,7 @@ class Element implements IsLockable
      */
     public function has(string $key): bool
     {
-        return \in_array($key, \array_keys($this->values));
+        return \array_key_exists($key, $this->values);
     }
 
     /**
