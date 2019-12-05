@@ -47,7 +47,7 @@ trait MergesConfig
         if (Arr::isAssoc($original)) {
             foreach ($original as $key => $value) {
                 if (isset($merging[$key])) {
-                    if (\is_array($value)) {
+                    if (\is_array($value) && \is_array($merging[$key])) {
                         $original[$key] = $this->mergeConfig($value, $merging[$key], \array_merge($path, [$key]));
                     } else {
                         $original[$key] = $merging[$key];
