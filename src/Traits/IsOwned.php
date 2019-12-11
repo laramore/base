@@ -46,7 +46,7 @@ trait IsOwned
      *
      * @return string
      */
-    protected function getUnownedMessage(): string
+    protected function getNotOwnedMessage(): string
     {
         $class = static::class;
 
@@ -128,13 +128,13 @@ trait IsOwned
      */
     protected function checkNeedsToBeOwned(bool $owned, string $ownedElement=null)
     {
-        if ($this->isLocked() !== $owned) {
+        if ($this->isOwned() !== $owned) {
             // Load the method calling the needsToBeOwned.
             if (\is_null($ownedElement)) {
                 $ownedElement = $this->getDebugMethodName();
             }
 
-            throw new OwnException($this, $owned ? $this->getNotOwnedMessage() : $this->getOwnedMessage(), $ownedElement);
+            throw new OwnException($owned ? $this->getNotOwnedMessage() : $this->getOwnedMessage(), $ownedElement);
         }
 
         return $this;
