@@ -273,6 +273,10 @@ class ElementManager
     {
         $method = Str::snake($method);
 
-        return $this->get($method)->__invoke(...$args);
+        if (\count($args)) {
+            return $this->get($method)->__invoke(...$args);
+        } else {
+            return $this->get($method);
+        }
     }
 }
