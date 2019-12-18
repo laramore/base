@@ -18,10 +18,10 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
     /**
      * Build the class with the given name.
      *
-     * @param  string $name
+     * @param  mixed $name
      * @return string
      */
-    protected function buildClass(string $name)
+    protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
         $stub = $this->replaceDate($stub, (string) now());
