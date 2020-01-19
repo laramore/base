@@ -10,8 +10,11 @@
 
 namespace Laramore\Commands;
 
-use Illuminate\Support\Str;
+use Illuminate\Support\{
+    Str, Carbon
+};
 use Illuminate\Console\GeneratorCommand;
+use Illuminate\Container\Container;
 
 abstract class BaseGeneratorCommand extends GeneratorCommand
 {
@@ -24,7 +27,7 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
-        $stub = $this->replaceDate($stub, (string) now());
+        $stub = $this->replaceDate($stub, (string) Carbon::now());
         $stub = $this->replaceModelClass($stub, $this->guessModelClass($this->getNameInput()));
 
         return $stub;
@@ -54,7 +57,7 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
             $name = Str::replaceLast($this->type, '', $name);
         }
 
-        return '\\'.config('metas.models_namespace', 'App').'\\'.$name;
+        return '\\'.Container::getInstance()->make('config', ['metas.models_namespace', 'App']).'\\'.$name;
     }
 
     /**

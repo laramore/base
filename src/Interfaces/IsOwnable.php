@@ -10,7 +10,7 @@
 
 namespace Laramore\Interfaces;
 
-use Laramore\Exceptions\LockException;
+use Laramore\Exceptions\OwnException;
 
 interface IsOwnable
 {

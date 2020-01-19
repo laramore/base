@@ -11,6 +11,7 @@
 namespace Laramore\Traits;
 
 use Illuminate\Support\Traits\Macroable;
+use Illuminate\Container\Container;
 use Laramore\Exceptions\LockException;
 
 trait HasLockedMacros
@@ -28,7 +29,7 @@ trait HasLockedMacros
      */
     public static function macro($name, callable $macro)
     {
-        if (app()->isBooted()) {
+        if (Container::getInstance()->isBooted()) {
             throw new LockException('No more macros could be defined after the application booting', $name);
         }
 
