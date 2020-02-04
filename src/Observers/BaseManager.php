@@ -34,7 +34,7 @@ abstract class BaseManager
     /**
      * List of all handlers.
      *
-     * @var array
+     * @var array<BaseHandler>
      */
     protected $handlers = [];
 
@@ -72,11 +72,11 @@ abstract class BaseManager
         $this->needsToBeUnlocked();
 
         if (!$this->doesManage($observableClass)) {
-            throw new \Exception("The class [$observableClass] is not manageable by this type of handler");
+            throw new \Exception("The class `$observableClass` is not manageable by this type of handler");
         }
 
         if (in_array($observableClass, array_keys($this->handlers))) {
-            throw new \Exception("A handler already exists for [$observableClass]");
+            throw new \Exception("A handler already exists for `$observableClass`");
         }
 
         $this->handlers[$observableClass] = $handler = new $this->handlerClass($observableClass);
@@ -109,7 +109,7 @@ abstract class BaseManager
     /**
      * Return the list of the observable handlers.
      *
-     * @return array
+     * @return array<BaseHandler>
      */
     public function getHandlers(): array
     {

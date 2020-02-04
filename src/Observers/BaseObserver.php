@@ -145,7 +145,7 @@ abstract class BaseObserver
         $this->needsToBeUnlocked();
 
         if ($priority < static::MAX_PRIORITY || $priority > static::MIN_PRIORITY) {
-            throw new \Exception('The priority must be beetween '.static::MAX_PRIORITY.' and '.static::MIN_PRIORITY);
+            throw new \Exception('The priority must be beetween `'.static::MAX_PRIORITY.'` and `'.static::MIN_PRIORITY.'`');
         }
 
         $this->priority = $priority;
@@ -238,7 +238,7 @@ abstract class BaseObserver
             }
         }
 
-        throw new \Exception("[$entity] not found !");
+        throw new \Exception("`$entity` not found !");
     }
 
     /**

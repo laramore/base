@@ -48,7 +48,7 @@ trait HasProperties
         }
 
         if ($fail) {
-            throw new \ErrorException("The property $key does not exist");
+            throw new \ErrorException("The property `$key` does not exist");
         }
     }
 
@@ -81,7 +81,7 @@ trait HasProperties
         } else if (\property_exists($this, $key)) {
             $this->defineProperty($key, $value);
         } else {
-            throw new \ErrorException("The property $key cannot be set as it does not exist");
+            throw new \ErrorException("The property `$key` cannot be set as it does not exist");
         }
 
         return $this;

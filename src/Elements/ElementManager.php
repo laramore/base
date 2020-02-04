@@ -29,7 +29,7 @@ class ElementManager
     /**
      * All existing elements.
      *
-     * @var array
+     * @var array<Element>
      */
     protected $elements = [];
 
@@ -37,14 +37,14 @@ class ElementManager
      * All element value names.
      * Examples: migration, factory, admin (for types)
      *
-     * @var array
+     * @var array<string>
      */
     protected $definitions = [];
 
     /**
      * Build default elements managed by this manager.
      *
-     * @param array $defaults
+     * @param array<Element> $defaults
      */
     public function __construct(array $defaults=[])
     {
@@ -118,7 +118,7 @@ class ElementManager
      * Define an element with its name.
      * Override is allowed, be carefull.
      *
-     * @param  Element|array $element
+     * @param  Element|array<Element> $element
      * @return self
      */
     public function set($element): self
@@ -165,7 +165,7 @@ class ElementManager
     /**
      * Return all possible elements.
      *
-     * @return array
+     * @return array<Element>
      */
     public function all(): array
     {
@@ -220,7 +220,7 @@ class ElementManager
     /**
      * Return the list of value names.
      *
-     * @return array
+     * @return array<string>
      */
     public function definitions(): array
     {

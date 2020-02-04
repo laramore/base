@@ -80,7 +80,7 @@ abstract class BaseHandler
         $observerClass = $this->getObserverClass();
 
         if (!($observer instanceof $observerClass)) {
-            throw new \Exception("The observer [$observerClass] is not of the right type");
+            throw new \Exception("The observer `$observerClass` is not of the right type");
         }
 
         return $this->push($observer, $this->observers);
@@ -89,8 +89,8 @@ abstract class BaseHandler
     /**
      * Add an observer to a list of observers.
      *
-     * @param BaseObserver $observer
-     * @param array        $observers
+     * @param BaseObserver        $observer
+     * @param array<BaseObserver> $observers
      * @return self
      */
     protected function push(BaseObserver $observer, array &$observers)
@@ -121,7 +121,7 @@ abstract class BaseHandler
      * @param  string       $name
      * @param  \Closure     $callback
      * @param  integer      $priority
-     * @return static
+     * @return self
      */
     public function create($data, string $name, \Closure $callback, int $priority=BaseObserver::MEDIUM_PRIORITY)
     {
@@ -159,14 +159,14 @@ abstract class BaseHandler
             }
         }
 
-        throw new \Exception("The observer [$name] does not exist");
+        throw new \Exception("The observer `$name` does not exist");
     }
 
     /**
      * Return all observers for a specific class name.
      *
      * @param  string $class
-     * @return array
+     * @return array<BaseObserver>
      */
     public function allFromClass(string $class): array
     {
@@ -188,7 +188,7 @@ abstract class BaseHandler
     /**
      * Return the list of the handled observers.
      *
-     * @return array
+     * @return array<BaseObserver>
      */
     public function all(): array
     {
@@ -199,7 +199,7 @@ abstract class BaseHandler
      * Remove an observer before it is locked.
      *
      * @param  string $name
-     * @return static
+     * @return self
      */
     public function remove(string $name)
     {

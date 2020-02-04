@@ -38,7 +38,7 @@ trait IsOwned
     {
         $class = static::class;
 
-        return "The instance [$class] [{$this->name}] is already owned";
+        return "The instance `$class` `{$this->name}` is already owned";
     }
 
     /**
@@ -50,7 +50,7 @@ trait IsOwned
     {
         $class = static::class;
 
-        return "The instance [$class] [{$this->name}] needs to be owned";
+        return "The instance `$class` `{$this->name}` needs to be owned";
     }
 
     /**

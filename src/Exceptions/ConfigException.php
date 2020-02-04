@@ -22,7 +22,7 @@ class ConfigException extends LaramoreException
     /**
      * Supported values for the config given.
      *
-     * @var array
+     * @var array<string>
      */
     protected $supportedValues;
 
@@ -36,14 +36,14 @@ class ConfigException extends LaramoreException
     /**
      * Create a new LaramoreException.
      *
-     * @param string       $config
-     * @param array|string $supportedValues
-     * @param mixed        $givenValue
-     * @param string       $message
-     * @param integer      $code
-     * @param \Throwable   $previous
+     * @param string        $config
+     * @param array<string> $supportedValues
+     * @param mixed         $givenValue
+     * @param string        $message
+     * @param integer       $code
+     * @param \Throwable    $previous
      */
-    public function __construct(string $config, $supportedValues, $givenValue, string $message=null,
+    public function __construct(string $config, array $supportedValues, $givenValue, string $message=null,
         int $code=0, \Throwable $previous=null)
     {
         $this->config = $config;
@@ -81,7 +81,7 @@ class ConfigException extends LaramoreException
     /**
      * Return the supported values for the specific configuration.
      *
-     * @return array
+     * @return array<string>
      */
     public function getSupportedValues(): array
     {
