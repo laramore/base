@@ -26,18 +26,16 @@ trait HasProperties
             return \call_user_func([$this, $method]);
         }
 
-        return isset($this->$key);
+        return \property_exists($this, $key) && isset($this->$key);
     }
 
     /**
      * Return a property by its name.
      *
-     * @param  string  $key
-     * @param  boolean $fail
+     * @param  string $key
      * @return mixed
-     * @throws \ErrorException If no property exists with this name.
      */
-    public function getProperty(string $key, bool $fail=true)
+    public function getProperty(string $key)
     {
         if ($this->hasProperty($key)) {
             if (\method_exists($this, $method = 'get'.\ucfirst($key))) {
@@ -45,10 +43,6 @@ trait HasProperties
             }
 
             return $this->$key;
-        }
-
-        if ($fail) {
-            throw new \ErrorException("The property `$key` does not exist");
         }
     }
 
