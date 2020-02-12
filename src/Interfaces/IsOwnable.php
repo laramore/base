@@ -28,7 +28,7 @@ interface IsOwnable
      *
      * @return object|null
      */
-    public function getOwner(): ?object;
+    public function getOwner();
 
     /**
      * Indicate if this instance is owned or not.
