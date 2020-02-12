@@ -65,7 +65,7 @@ abstract class BaseObserver
      * @param integer $priority
      * @param mixed   $data
      */
-    public function __construct(string $name, ?Closure $callback, int $priority=self::MEDIUM_PRIORITY, $data=[])
+    public function __construct(string $name, Closure $callback=null, int $priority=self::MEDIUM_PRIORITY, $data=[])
     {
         $this->setName($name);
         $this->setCallback($callback);
@@ -86,9 +86,9 @@ abstract class BaseObserver
     /**
      * Return the Closure function.
      *
-     * @return Closure
+     * @return Closure|null
      */
-    public function getCallback(): ?Closure
+    public function getCallback(): Closure
     {
         return $this->callback;
     }
@@ -121,10 +121,10 @@ abstract class BaseObserver
     /**
      * Define the Closure method until the observer is locked.
      *
-     * @param Closure $callback
+     * @param Closure|null $callback
      * @return self
      */
-    public function setCallback(?Closure $callback)
+    public function setCallback(Closure $callback=null)
     {
         $this->needsToBeUnlocked();
 

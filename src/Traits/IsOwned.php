@@ -103,7 +103,7 @@ trait IsOwned
      *
      * @return object|null
      */
-    public function getOwner(): ?object
+    public function getOwner()
     {
         return $this->owner;
     }
