@@ -43,7 +43,6 @@ abstract class BaseObserver
      *
      * @var array
      */
-
     protected $observed = [];
 
     /**
@@ -52,11 +51,11 @@ abstract class BaseObserver
      *
      * @var int
      */
-    public const MAX_PRIORITY = 0;
-    public const MEDIUM_PRIORITY = 50;
-    public const MIN_PRIORITY = 100;
-    public const HIGH_PRIORITY = ((self::MAX_PRIORITY + self::MEDIUM_PRIORITY) / 2);
-    public const LOW_PRIORITY = ((self::MIN_PRIORITY + self::MEDIUM_PRIORITY) / 2);
+    const MAX_PRIORITY = 0;
+    const MEDIUM_PRIORITY = 50;
+    const MIN_PRIORITY = 100;
+    const HIGH_PRIORITY = ((self::MAX_PRIORITY + self::MEDIUM_PRIORITY) / 2);
+    const LOW_PRIORITY = ((self::MIN_PRIORITY + self::MEDIUM_PRIORITY) / 2);
 
     /**
      * An observer needs at least a name and a Closure.
