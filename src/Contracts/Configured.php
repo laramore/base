@@ -4,13 +4,13 @@
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c) 2020
  * @license MIT
  */
 
 namespace Laramore\Interfaces;
 
-interface IsConfigurable
+interface Configured
 {
     /**
      * Return the configuration path for this field.
