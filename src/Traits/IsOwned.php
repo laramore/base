@@ -69,7 +69,7 @@ trait IsOwned
      * Assign a unique owner to this instance.
      *
      * @param  object $owner
-     * @param  string    $name
+     * @param  string $name
      * @return self
      */
     public function own(object $owner, string $name)
