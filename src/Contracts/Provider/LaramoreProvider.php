@@ -4,13 +4,15 @@
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c) 2020
  * @license MIT
  */
 
-namespace Laramore\Interfaces;
+namespace Laramore\Contracts\Provider;
 
-interface IsALaramoreProvider
+use Laramore\Contracts\Manager\LaramoreManager;
+
+interface LaramoreProvider
 {
     /**
      * Publish the config linked to the manager.
@@ -36,7 +38,7 @@ interface IsALaramoreProvider
     /**
      * Generate the corresponded manager.
      *
-     * @return IsALaramoreManager
+     * @return LaramoreManager
      */
-    public static function generateManager(): IsALaramoreManager;
+    public static function generateManager(): LaramoreManager;
 }
