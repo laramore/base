@@ -4,15 +4,15 @@
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c) 2020
  * @license MIT
  */
 
-namespace Laramore\Interfaces;
+namespace Laramore\Contracts;
 
 use Laramore\Exceptions\LockException;
 
-interface IsLockable
+interface Locked
 {
     /**
      * Disallow any modifications after locking the instance.
