@@ -11,7 +11,6 @@
 namespace Laramore\Traits;
 
 use Laramore\Exceptions\OwnException;
-use Laramore\Interfaces\IsAnOwner;
 
 trait IsOwned
 {
@@ -56,10 +55,10 @@ trait IsOwned
     /**
      * Set the owner.
      *
-     * @param IsAnOwner $owner
+     * @param object $owner
      * @return void
      */
-    protected function setOwner(IsAnOwner $owner)
+    protected function setOwner(object $owner)
     {
         $this->needsToBeUnowned();
 
@@ -69,11 +68,11 @@ trait IsOwned
     /**
      * Assign a unique owner to this instance.
      *
-     * @param  IsAnOwner $owner
+     * @param  object $owner
      * @param  string    $name
      * @return self
      */
-    public function own(IsAnOwner $owner, string $name)
+    public function own(object $owner, string $name)
     {
         $this->setOwner($owner);
         $this->setName($name);

@@ -4,24 +4,24 @@
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
- * @copyright Copyright (c) 2019
+ * @copyright Copyright (c) 2020
  * @license MIT
  */
 
-namespace Laramore\Interfaces;
+namespace Laramore\Contracts;
 
 use Laramore\Exceptions\OwnException;
 
-interface IsOwnable
+interface Owned
 {
     /**
      * Assign a unique owner to this instance.
      *
-     * @param  IsAnOwner $owner
-     * @param  string    $name
+     * @param  object $owner
+     * @param  string $name
      * @return self
      */
-    public function own(IsAnOwner $owner, string $name);
+    public function own(object $owner, string $name);
 
     /**
      * Return the owner of this instance.

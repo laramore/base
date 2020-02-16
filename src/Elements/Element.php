@@ -12,10 +12,10 @@ namespace Laramore\Elements;
 
 use Illuminate\Support\Str;
 use Laramore\Exceptions\LockException;
-use Laramore\Interfaces\IsLockable;
+use Laramore\Contracts\Locked;
 use Laramore\Traits\IsLocked;
 
-class Element implements IsLockable
+class Element implements Locked
 {
     use IsLocked;
 
