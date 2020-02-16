@@ -17,7 +17,7 @@ trait IsOwned
     /**
      * The instance owned this instance.
      *
-     * @var object
+     * @var mixed
      */
     protected $owner;
 
@@ -55,10 +55,10 @@ trait IsOwned
     /**
      * Set the owner.
      *
-     * @param object $owner
+     * @param mixed $owner
      * @return void
      */
-    protected function setOwner(object $owner)
+    protected function setOwner($owner)
     {
         $this->needsToBeUnowned();
 
@@ -68,11 +68,11 @@ trait IsOwned
     /**
      * Assign a unique owner to this instance.
      *
-     * @param  object $owner
+     * @param  mixed  $owner
      * @param  string $name
      * @return self
      */
-    public function own(object $owner, string $name)
+    public function own($owner, string $name)
     {
         $this->setOwner($owner);
         $this->setName($name);
@@ -100,7 +100,7 @@ trait IsOwned
     /**
      * Return the owner of this instance.
      *
-     * @return object|null
+     * @return mixed
      */
     public function getOwner()
     {

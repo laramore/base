@@ -17,16 +17,16 @@ interface Owned
     /**
      * Assign a unique owner to this instance.
      *
-     * @param  object $owner
+     * @param  mixed  $owner
      * @param  string $name
      * @return self
      */
-    public function own(object $owner, string $name);
+    public function own($owner, string $name);
 
     /**
      * Return the owner of this instance.
      *
-     * @return object|null
+     * @return mixed
      */
     public function getOwner();
 
