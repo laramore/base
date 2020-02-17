@@ -49,5 +49,12 @@
             "@composer test:lint",
             "@composer test:unit"
         ]
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Laramore\\Providers\\BaseProvider"
+            ]
+        }
     }
 }
