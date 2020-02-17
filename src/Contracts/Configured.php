@@ -8,7 +8,7 @@
  * @license MIT
  */
 
-namespace Laramore\Interfaces;
+namespace Laramore\Contracts;
 
 interface Configured
 {
