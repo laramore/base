@@ -125,7 +125,9 @@ abstract class BaseHandler
      */
     public function create($data, string $name, \Closure $callback, int $priority=BaseObserver::MEDIUM_PRIORITY)
     {
-        return $this->add(new $this->observerClass($name, $callback, $priority, $data));
+        $this->add($observer = new $this->observerClass($name, $callback, $priority, $data));
+
+        return $observer;
     }
 
     /**
