@@ -121,11 +121,23 @@ abstract class BaseHandler
      * @param  string       $name
      * @param  \Closure     $callback
      * @param  integer      $priority
+     * @param  string       $class
      * @return self
      */
-    public function create($data, string $name, \Closure $callback, int $priority=BaseObserver::MEDIUM_PRIORITY)
+    public function create($data, string $name, \Closure $callback,
+                           int $priority=BaseObserver::MEDIUM_PRIORITY, string $class=null)
     {
-        $this->add($observer = new $this->observerClass($name, $callback, $priority, $data));
+        if (!\is_null($class)) {
+            $subClass = $this->getObserverClass();
+
+            if (!($class instanceof $subClass)) {
+                throw new \LogicException("The class `$class` must an instance of the observer class `$subClass`");
+            }
+        } else {
+            $class = $this->getObserverClass();
+        }
+
+        $this->add($observer = new $class($name, $callback, $priority, $data));
 
         return $observer;
     }
@@ -134,13 +146,16 @@ abstract class BaseHandler
      * Return if an observe exists with the given name.
      *
      * @param  string $name
+     * @param  string $class
      * @return boolean
      */
-    public function has(string $name): bool
+    public function has(string $name, string $class=null): bool
     {
-        foreach ($this->observers as $key => $observer) {
+        foreach ($this->observers as $observer) {
             if ($observer->getName() === $name) {
-                return true;
+                if (\is_null($class) || ($observer instanceof $class)) {
+                    return true;
+                }
             }
         }
 
@@ -151,13 +166,16 @@ abstract class BaseHandler
      * Return the first observer with the given name.
      *
      * @param  string $name
+     * @param  string $class
      * @return BaseObserver
      */
-    public function get(string $name)
+    public function get(string $name, string $class=null)
     {
         foreach ($this->observers as $observer) {
             if ($observer->getName() === $name) {
-                return $observer;
+                if (\is_null($class) || ($observer instanceof $class)) {
+                    return $observer;
+                }
             }
         }
 
@@ -165,55 +183,55 @@ abstract class BaseHandler
     }
 
     /**
-     * Return all observers for a specific class name.
+     * Return the number of the handled observers.
+     *
+     * @param  string $class
+     * @return integer
+     */
+    public function count(string $class=null): int
+    {
+        return \count($this->all($class));
+    }
+
+    /**
+     * Return the list of the handled observers.
      *
      * @param  string $class
      * @return array<BaseObserver>
      */
-    public function allFromClass(string $class): array
+    public function all(string $class=null): array
     {
+        if (\is_null($class)) {
+            return $this->observers;
+        }
+
         return \array_filter($this->observers, function ($observer) use ($class) {
             return $observer instanceof $class;
         });
     }
 
     /**
-     * Return the number of the handled observers.
-     *
-     * @return integer
-     */
-    public function count(): int
-    {
-        return \count($this->observers);
-    }
-
-    /**
-     * Return the list of the handled observers.
-     *
-     * @return array<BaseObserver>
-     */
-    public function all(): array
-    {
-        return $this->observers;
-    }
-
-    /**
      * Remove an observer before it is locked.
      *
      * @param  string $name
+     * @param  string $class
      * @return self
      */
-    public function remove(string $name)
+    public function remove(string $name, string $class=null)
     {
         $this->needsToBeUnlocked();
 
-        foreach ($this->observers as $observer) {
+        foreach ($this->observers as $key => $observer) {
             if ($observer->getName() === $name) {
-                unset($this->observers);
+                if (\is_null($class) || ($observer instanceof $class)) {
+                    unset($this->observers[$key]);
+
+                    $this->observers = \array_values($this->all());
+
+                    break;
+                }
             }
         }
-
-        $this->observers = array_values($this->observers);
 
         return $this;
     }
