@@ -1,6 +1,6 @@
 <?php
 /**
- * Create an Observer to add a Closure on a specific model event.
+ * Create an Observer to add a callable on a specific model event.
  *
  * @author Samy Nastuzzi <samy@nastuzzi.fr>
  *
@@ -11,7 +11,6 @@
 namespace Laramore\Observers;
 
 use Laramore\Traits\IsLocked;
-use Closure;
 
 abstract class BaseObserver
 {
@@ -27,7 +26,7 @@ abstract class BaseObserver
     /**
      * Callback to trigger when a specific model event happens.
      *
-     * @var Closure
+     * @var \Closure|callable|array|null
      */
     protected $callback;
 
@@ -58,14 +57,14 @@ abstract class BaseObserver
     const LOW_PRIORITY = ((self::MIN_PRIORITY + self::MEDIUM_PRIORITY) / 2);
 
     /**
-     * An observer needs at least a name and a Closure.
+     * An observer needs at least a name and a callable.
      *
-     * @param string  $name
-     * @param Closure $callback
-     * @param integer $priority
-     * @param mixed   $data
+     * @param string                       $name
+     * @param \Closure|callable|array|null $callback
+     * @param integer                      $priority
+     * @param mixed                        $data
      */
-    public function __construct(string $name, Closure $callback=null, int $priority=self::MEDIUM_PRIORITY, $data=[])
+    public function __construct(string $name, $callback=null, int $priority=self::MEDIUM_PRIORITY, $data=[])
     {
         $this->setName($name);
         $this->setCallback($callback);
@@ -84,11 +83,11 @@ abstract class BaseObserver
     }
 
     /**
-     * Return the Closure function.
+     * Return the callable function.
      *
-     * @return Closure|null
+     * @return \Closure|callable|array
      */
-    public function getCallback(): Closure
+    public function getCallback()
     {
         return $this->callback;
     }
@@ -119,14 +118,18 @@ abstract class BaseObserver
     }
 
     /**
-     * Define the Closure method until the observer is locked.
+     * Define the callable method until the observer is locked.
      *
-     * @param Closure|null $callback
+     * @param \Closure|callable|array|null $callback
      * @return self
      */
-    public function setCallback(Closure $callback=null)
+    public function setCallback($callback=null)
     {
         $this->needsToBeUnlocked();
+
+        if (!\is_callable($callback) && !is_null($callback)) {
+            throw new \Exception('Expecting a valid callable object.');
+        }
 
         $this->callback = $callback;
 

@@ -117,14 +117,14 @@ abstract class BaseHandler
     /**
      * Create an observer and add it.
      *
-     * @param  string|array $data
-     * @param  string       $name
-     * @param  \Closure     $callback
-     * @param  integer      $priority
-     * @param  string       $class
+     * @param  string|array            $data
+     * @param  string                  $name
+     * @param  \Closure|callable|array $callback
+     * @param  integer                 $priority
+     * @param  string                  $class
      * @return self
      */
-    public function create($data, string $name, \Closure $callback,
+    public function create($data, string $name, $callback,
                            int $priority=BaseObserver::MEDIUM_PRIORITY, string $class=null)
     {
         if (!\is_null($class)) {
