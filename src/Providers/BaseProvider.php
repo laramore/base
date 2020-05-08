@@ -37,10 +37,12 @@ class BaseProvider extends ServiceProvider
         {
             foreach ($keyValues as $key => $value) {
                 $template = \str_replace([
-                    '${'.$key.'}', '#{'.$key.'}', '+{'.$key.'}', '^{'.$key.'}', '*{'.$key.'}', '_{'.$key.'}', '-{'.$key.'}',
+                    '${'.$key.'}', '#{'.$key.'}', '+{'.$key.'}', '_{'.$key.'}', '-{'.$key.'}',
+                    '$^{'.$key.'}', '#^{'.$key.'}', '+^{'.$key.'}', '_^{'.$key.'}', '-^{'.$key.'}',
                 ], [
-                    $value, Str::singular($value), Str::plural($value), \ucwords($value), \ucwords(Str::plural($value)),
-                    Str::snake($value), Str::camel($value)
+                    $value, Str::singular($value), Str::plural($value), Str::snake($value), Str::camel($value),
+                    \ucwords($value), Str::singular(\ucwords($value)), Str::plural(\ucwords($value)),
+                    \ucwords(Str::snake($value)), \ucwords(Str::camel($value))
                 ], $template);
             }
 
