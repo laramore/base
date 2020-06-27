@@ -14,7 +14,6 @@ use Illuminate\Support\{
     Str, Carbon
 };
 use Illuminate\Console\GeneratorCommand;
-use Illuminate\Container\Container;
 
 abstract class BaseGeneratorCommand extends GeneratorCommand
 {
@@ -27,6 +26,7 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
     protected function buildClass($name)
     {
         $stub = parent::buildClass($name);
+
         $stub = $this->replaceDate($stub, (string) Carbon::now());
         $stub = $this->replaceModelClass($stub, $this->guessModelClass($this->getNameInput()));
 
@@ -42,7 +42,7 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
      */
     protected function replaceDate(string $stub, string $date)
     {
-        return str_replace('DummyDate', $date, $stub);
+        return \str_replace('DummyDate', $date, $stub);
     }
 
     /**
@@ -57,7 +57,7 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
             $name = Str::replaceLast($this->type, '', $name);
         }
 
-        return '\\'.Container::getInstance()->make('config', ['metas.models_namespace', 'App']).'\\'.$name;
+        return '\\'.config('metas.models_namespace', 'App').'\\'.$name;
     }
 
     /**
@@ -69,6 +69,6 @@ abstract class BaseGeneratorCommand extends GeneratorCommand
      */
     protected function replaceModelClass(string $stub, string $modelClass)
     {
-        return str_replace('DummyModelClass', $modelClass, $stub);
+        return \str_replace('DummyModelClass', $modelClass, $stub);
     }
 }
