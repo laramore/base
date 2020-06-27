@@ -10,9 +10,7 @@
    },
     "require": {
         "php": ">=7.0.8",
-        "illuminate/support": ">=5.5",
-        "illuminate/console": ">=5.5",
-        "illuminate/container": ">=5.5"
+        "laravel/framework": ">=5.5"
     },
     "require-dev": {
         "phpmd/phpmd": ">=2.7",
