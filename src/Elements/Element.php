@@ -10,12 +10,13 @@
 
 namespace Laramore\Elements;
 
+use Illuminate\Contracts\Support\Arrayable;
 use Illuminate\Support\Str;
 use Laramore\Exceptions\LockException;
 use Laramore\Contracts\Locked;
 use Laramore\Traits\IsLocked;
 
-class Element implements Locked
+class Element implements Locked, Arrayable
 {
     use IsLocked;
 
@@ -220,5 +221,15 @@ class Element implements Locked
     public function __toString()
     {
         return $this->native;
+    }
+
+    /**
+     * Return values.
+     *
+     * @return array
+     */
+    public function toArray(): array
+    {
+        return $this->values;
     }
 }

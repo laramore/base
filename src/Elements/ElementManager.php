@@ -124,13 +124,7 @@ class ElementManager
     public function set($element): self
     {
         if ($element instanceof $this->elementClass) {
-            $this->elements[$name = $element->getName()] = $element;
-
-            foreach ($this->definitions as $keyName => $valueName) {
-                if (!$element->has($keyName)) {
-                    $element->set($keyName, ($valueName ?? $name));
-                }
-            }
+            $this->elements[$element->getName()] = $element;
         } else if (\is_array($element)) {
             if (Arr::isAssoc($element)) {
                 foreach ($element as $key => $value) {
@@ -228,13 +222,19 @@ class ElementManager
     }
 
     /**
-     * Lock every element.
+     * Lock every element after defining all definitions.
      *
      * @return void
      */
     protected function locking()
     {
-        foreach ($this->all() as $element) {
+        foreach ($this->all() as $name => $element) {
+            foreach ($this->definitions as $keyName => $valueName) {
+                if (!$element->has($keyName)) {
+                    $element->set($keyName, ($valueName ?? $name));
+                }
+            }
+
             $element->lock();
         }
     }
